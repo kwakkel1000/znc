@@ -415,6 +415,10 @@ bool CZNC::WriteConfig() {
 		config.AddKeyValuePair("Skin", m_sSkinName.FirstLine());
 	}
 
+	if (!m_sLanguage.empty()) {
+		config.AddKeyValuePair("Language", m_sLanguage.FirstLine());
+	}
+
 	if (!m_sStatusPrefix.empty()) {
 		config.AddKeyValuePair("StatusPrefix", m_sStatusPrefix.FirstLine());
 	}
@@ -1151,6 +1155,8 @@ bool CZNC::DoRehash(CString& sError)
 		m_sSSLCertFile = sVal;
 	if (config.FindStringEntry("skin", sVal))
 		SetSkinName(sVal);
+	if (config.FindStringEntry("language", sVal))
+		SetLanguage(sVal);
 	if (config.FindStringEntry("connectdelay", sVal))
 		SetConnectDelay(sVal.ToUInt());
 	if (config.FindStringEntry("serverthrottle", sVal))

@@ -128,7 +128,9 @@ public:
 	static CString GetSkinPath(const CString& sSkinName);
 	CModule* GetModule() const { return (CModule*) m_pModule; }
 	void GetAvailSkins(VCString& vRet) const;
+	void GetAvailLanguages(VCString& vRet) const;
 	CString GetSkinName();
+	CString GetLanguage();
 
 	CString GetRequestCookie(const CString& sKey);
 	bool SendCookie(const CString& sKey, const CString& sValue);

@@ -57,6 +57,16 @@
 						</select>
 					</div>
 				</div>
+				<div class="subsection">
+					<div class="inputlabel">Language:</div>
+					<div>
+						<select name="language">
+							<? LOOP LanguageLoop ?>
+							<option value="<? VAR Name ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? IF Name == "_default_" ?>Default<? ELSE ?><? VAR Name ?><? ENDIF ?></option>
+							<? ENDLOOP ?>
+						</select>
+					</div>
+				</div>
 				<div style="clear: both;"></div>
 
 				<div class="subsection third">

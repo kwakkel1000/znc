@@ -254,6 +254,21 @@
 						<? ENDIF ?>
 					</div>
 				</div>
+				<div class="subsection">
+					<div class="inputlabel">Language:</div>
+					<div>
+						<? IF SkinLoop ROWS > 1 ?>
+						<select name="language">
+							<option value="">- Global -</option>
+							<? LOOP LanguageLoop ?>
+							<option value="<? VAR Name ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? IF Name == "_default_" ?>Default<? ELSE ?><? VAR Name ?><? ENDIF ?></option>
+							<? ENDLOOP ?>
+						</select>
+						<? ELSE ?>
+						No other skins found
+						<? ENDIF ?>
+					</div>
+				</div>
 				<div style="clear: both;"></div>
 			</div>
 		</div>

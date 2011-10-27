@@ -248,9 +248,16 @@ void CWebSock::GetAvailSkins(VCString& vRet) const {
 	}
 }
 
+void CWebSock::GetAvailLanguages(VCString& vRet) const {
+	vRet.clear();
+	vRet.push_back("EN");
+	vRet.push_back("NL");
+}
+
 VCString CWebSock::GetDirs(CModule* pModule, bool bIsTemplate) {
 	CString sHomeSkinsDir(CZNC::Get().GetZNCPath() + "/webskins/");
 	CString sSkinName(GetSkinName());
+	CString sLanguage(GetLanguage());
 	VCString vsResult;
 
 	// Module specific paths
@@ -268,28 +275,33 @@ VCString CWebSock::GetDirs(CModule* pModule, bool bIsTemplate) {
 		//
 		vsResult.push_back(GetSkinPath("_default_") + "/mods/" + sModName + "/");
 
-		// 3. ./modules/<mod_name>/tmpl/
+		// 3. ./modules/<mod_name>/tmpl/<language>/
+		//
+		if (!sLanguage.empty()) {
+			vsResult.push_back(pModule->GetModDataDir() + "/tmpl/" + sLanguage + "/");
+		}
+		// 4. ./modules/<mod_name>/tmpl/
 		//
 		vsResult.push_back(pModule->GetModDataDir() + "/tmpl/");
 
-		// 4. ~/.znc/webskins/<user_skin_setting>/mods/<mod_name>/
+		// 5. ~/.znc/webskins/<user_skin_setting>/mods/<mod_name>/
 		//
 		if (!sSkinName.empty()) {
 			vsResult.push_back(GetSkinPath(sSkinName) + "/mods/" + sModName + "/");
 		}
 
-		// 5. ~/.znc/webskins/_default_/mods/<mod_name>/
+		// 6. ~/.znc/webskins/_default_/mods/<mod_name>/
 		//
 		vsResult.push_back(GetSkinPath("_default_") + "/mods/" + sModName + "/");
 	}
 
-	// 6. ~/.znc/webskins/<user_skin_setting>/
+	// 7. ~/.znc/webskins/<user_skin_setting>/
 	//
 	if (!sSkinName.empty()) {
 		vsResult.push_back(GetSkinPath(sSkinName) + CString(bIsTemplate ? "/tmpl/" : "/"));
 	}
 
-	// 7. ~/.znc/webskins/_default_/
+	// 8. ~/.znc/webskins/_default_/
 	//
 	vsResult.push_back(GetSkinPath("_default_") + CString(bIsTemplate ? "/tmpl/" : "/"));
 
@@ -791,5 +803,15 @@ CString CWebSock::GetSkinName() {
 	}
 
 	return CZNC::Get().GetSkinName();
+}
+
+CString CWebSock::GetLanguage() {
+	CSmartPtr<CWebSession> spSession = GetSession();
+
+	if (spSession->IsLoggedIn() && !spSession->GetUser()->GetLanguage().empty()) {
+		return spSession->GetUser()->GetLanguage();
+	}
+
+	return CZNC::Get().GetLanguage();
 }
 

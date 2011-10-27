@@ -133,6 +133,7 @@ bool CUser::ParseConfig(CConfig* pConfig, CString& sError) {
 		{ "dccvhost", &CUser::SetDCCBindHost },
 		{ "timestampformat", &CUser::SetTimestampFormat },
 		{ "skin", &CUser::SetSkinName },
+		{ "language", &CUser::SetLanguage },
 	};
 	size_t numStringOptions = sizeof(StringOptions) / sizeof(StringOptions[0]);
 	TOption<unsigned int> UIntOptions[] = {
@@ -386,7 +387,7 @@ bool CUser::ParseConfig(CConfig* pConfig, CString& sError) {
 					CString sNetworkModPath = (*it)->GetNetworkPath() + "/moddata/" + sModName;
 					if (!CFile::Exists(sNetworkModPath)) {
 						CDir::MakeDir(sNetworkModPath);
-					}	
+					}
 
 					fNVFile.Copy(sNetworkModPath + "/.registry");
 				}
@@ -588,6 +589,7 @@ bool CUser::Clone(const CUser& User, CString& sErrorRet, bool bCloneChans) {
 	SetDCCBindHost(User.GetDCCBindHost());
 	SetQuitMsg(User.GetQuitMsg());
 	SetSkinName(User.GetSkinName());
+	SetLanguage(User.GetLanguage());
 	SetDefaultChanModes(User.GetDefaultChanModes());
 	SetBufferCount(User.GetBufferCount(), true);
 	SetJoinTries(User.JoinTries());
@@ -776,6 +778,7 @@ CConfig CUser::ToConfig() {
 	if (CZNC::Get().GetStatusPrefix() != GetStatusPrefix())
 		config.AddKeyValuePair("StatusPrefix", GetStatusPrefix());
 	config.AddKeyValuePair("Skin", GetSkinName());
+	config.AddKeyValuePair("Language", GetLanguage());
 	config.AddKeyValuePair("ChanModes", GetDefaultChanModes());
 	config.AddKeyValuePair("Buffer", CString(GetBufferCount()));
 	config.AddKeyValuePair("KeepBuffer", CString(KeepBuffer()));
@@ -1075,5 +1078,6 @@ unsigned int CUser::GetBufferCount() const { return m_uBufferCount; }
 bool CUser::KeepBuffer() const { return m_bKeepBuffer; }
 //CString CUser::GetSkinName() const { return (!m_sSkinName.empty()) ? m_sSkinName : CZNC::Get().GetSkinName(); }
 CString CUser::GetSkinName() const { return m_sSkinName; }
+CString CUser::GetLanguage() const { return m_sLanguage; }
 const CString& CUser::GetUserPath() const { if (!CFile::Exists(m_sUserPath)) { CDir::MakeDir(m_sUserPath); } return m_sUserPath; }
 // !Getters

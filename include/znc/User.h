@@ -125,6 +125,7 @@ public:
 	void SetJoinTries(unsigned int i) { m_uMaxJoinTries = i; }
 	void SetMaxJoins(unsigned int i) { m_uMaxJoins = i; }
 	void SetSkinName(const CString& s) { m_sSkinName = s; }
+	void SetLanguage(const CString& s) { m_sLanguage = s; }
 	void SetIRCConnectEnabled(bool b) { m_bIRCConnectEnabled = b; }
 	// !Setters
 
@@ -168,6 +169,7 @@ public:
 	unsigned int JoinTries() const { return m_uMaxJoinTries; }
 	unsigned int MaxJoins() const { return m_uMaxJoins; }
 	CString GetSkinName() const;
+	CString GetLanguage() const;
 	// !Getters
 
 protected:
@@ -215,6 +217,7 @@ protected:
 	unsigned int          m_uMaxJoinTries;
 	unsigned int          m_uMaxJoins;
 	CString               m_sSkinName;
+	CString               m_sLanguage;
 
 	CModules*             m_pModules;
 };

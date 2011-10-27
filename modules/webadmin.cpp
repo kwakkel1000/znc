@@ -200,6 +200,7 @@ public:
 		sArg = WebSock.GetParam("statusprefix"); if (!sArg.empty()) { pNewUser->SetStatusPrefix(sArg); }
 		sArg = WebSock.GetParam("ident"); if (!sArg.empty()) { pNewUser->SetIdent(sArg); }
 		sArg = WebSock.GetParam("skin"); if (!sArg.empty()) { pNewUser->SetSkinName(sArg); }
+		sArg = WebSock.GetParam("language"); if (!sArg.empty()) { pNewUser->SetLanguage(sArg); }
 		sArg = WebSock.GetParam("realname"); if (!sArg.empty()) { pNewUser->SetRealName(sArg); }
 		sArg = WebSock.GetParam("quitmsg"); if (!sArg.empty()) { pNewUser->SetQuitMsg(sArg); }
 		sArg = WebSock.GetParam("chanmodes"); if (!sArg.empty()) { pNewUser->SetDefaultChanModes(sArg); }
@@ -225,6 +226,7 @@ public:
 			pNewUser->SetBufferCount(pUser->GetBufferCount(), true);
 		pNewUser->SetBufferCount(WebSock.GetParam("bufsize").ToUInt(), spSession->IsAdmin());
 		pNewUser->SetSkinName(WebSock.GetParam("skin"));
+		pNewUser->SetLanguage(WebSock.GetParam("language"));
 		pNewUser->SetKeepBuffer(WebSock.GetParam("keepbuffer").ToBool());
 		pNewUser->SetMultiClients(WebSock.GetParam("multiclients").ToBool());
 		pNewUser->SetTimestampAppend(WebSock.GetParam("appendtimestamp").ToBool());
@@ -950,6 +952,18 @@ public:
 				}
 			}
 
+			WebSock.GetAvailLanguages(vDirs);
+
+			for (unsigned int d = 0; d < vDirs.size(); d++) {
+				const CString& SubDir = vDirs[d];
+				CTemplate& l = Tmpl.AddRow("LanguageLoop");
+				l["Name"] = SubDir;
+
+				if (pUser && SubDir == pUser->GetLanguage()) {
+					l["Checked"] = "true";
+				}
+			}
+
 			set<CModInfo> ssUserMods;
 			CZNC::Get().GetModules().GetAvailableMods(ssUserMods);
 
@@ -1247,6 +1261,18 @@ public:
 				}
 			}
 
+			WebSock.GetAvailLanguages(vDirs);
+
+			for (unsigned int d = 0; d < vDirs.size(); d++) {
+				const CString& SubDir = vDirs[d];
+				CTemplate& l = Tmpl.AddRow("LanguageLoop");
+				l["Name"] = SubDir;
+
+				if (SubDir == CZNC::Get().GetLanguage()) {
+					l["Checked"] = "true";
+				}
+			}
+
 			set<CModInfo> ssGlobalMods;
 			CZNC::Get().GetModules().GetAvailableMods(ssGlobalMods, CModInfo::GlobalModule);
 
@@ -1297,6 +1323,7 @@ public:
 		}
 
 		CZNC::Get().SetSkinName(WebSock.GetParam("skin"));
+		CZNC::Get().SetLanguage(WebSock.GetParam("language"));
 
 		set<CString> ssArgs;
 		WebSock.GetParamValues("loadmod", ssArgs);

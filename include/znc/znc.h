@@ -85,6 +85,7 @@ public:
 	// Setters
 	void SetConfigState(enum ConfigState e) { m_eConfigState = e; }
 	void SetSkinName(const CString& s) { m_sSkinName = s; }
+	void SetLanguage(const CString& s) { m_sLanguage = s; }
 	void SetStatusPrefix(const CString& s) { m_sStatusPrefix = (s.empty()) ? "*" : s; }
 	void SetMaxBufferSize(unsigned int i) { m_uiMaxBufferSize = i; }
 	void SetAnonIPLimit(unsigned int i) { m_uiAnonIPLimit = i; }
@@ -100,6 +101,7 @@ public:
 	CModules& GetModules() { return *m_pModules; }
 	size_t FilterUncommonModules(set<CModInfo>& ssModules);
 	CString GetSkinName() const { return m_sSkinName; }
+	CString GetLanguage() const { return m_sLanguage; }
 	const CString& GetStatusPrefix() const { return m_sStatusPrefix; }
 	const CString& GetCurPath() const;
 	const CString& GetHomePath() const;
@@ -191,6 +193,7 @@ protected:
 
 	CString                m_sConfigFile;
 	CString                m_sSkinName;
+	CString                m_sLanguage;
 	CString                m_sStatusPrefix;
 	CString                m_sPidFile;
 	CString                m_sSSLCertFile;
